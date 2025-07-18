@@ -3,21 +3,16 @@
 <section id="single">
     <h1 class="title">{{ .Title }}</h1>
 
-    <div class="tip">
-        <time datetime="{{ .PublishDate }}">{{ i18n "publishDateFull" . }}</time>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          {{ i18n "wordCount" . }}
-        </span>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          {{ i18n "minuteRead" . }}
-        </span>
-    </div>
+ {{ $wordCount := .Params.manual_wordcount | default .WordCount }}
+{{ $readingTime := .Params.manual_reading_time | default (div (add $wordCount 199) 200) }}
+
+<div class="tip">
+  <time datetime="{{ .PublishDate }}">{{ i18n "publishDateFull" . }}</time>
+  <span class="split">·</span>
+  <span>{{ $wordCount }} words</span>
+  <span class="split">·</span>
+  <span>{{ $readingTime }} min read</span>
+</div>
 
     
     {{ if or .Site.Params.showToc .Params.showToc }}
